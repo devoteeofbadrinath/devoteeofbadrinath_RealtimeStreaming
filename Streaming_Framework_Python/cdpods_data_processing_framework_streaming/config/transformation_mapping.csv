@@ -1,0 +1,2 @@
+pipeline_task_id,pipeline_name,pipeline_task_name,source_col_name,target_col_name,column_order,target_data_type,transformation_rule,version,last_updated,last_updated_by
+account_balance_pipeline_name_pipeline_task_name,account_balance_pipeline_name,pipeline_task_name,LDGR_BAL_AMT_NEW,LDGR_BAL_AMT,1,string,passthrough,0.24,2025-03-05,c138147

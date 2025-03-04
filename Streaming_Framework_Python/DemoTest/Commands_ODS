@@ -1,0 +1,35 @@
+cd ~/Downloads/kafka_2.12-3.9.0
+sh bin/zookeeper-server-start.sh config/zookeeper.properties 
+sh bin/kafka-server-start.sh config/server.properties         
+sh ~/Downloads/kafka_2.12-3.9.0/bin/kafka-topics.sh --delete --topic account --bootstrap-server localhost:9092 
+sh ~/Downloads/kafka_2.12-3.9.0/bin/kafka-topics.sh --create --topic account --bootstrap-server localhost:9092 
+sh ~/Downloads/kafka_2.12-3.9.0/bin/kafka-console-producer.sh --topic account --bootstrap-server localhost:9092
+sh ~/Downloads/kafka_2.12-3.9.0/bin/kafka-console-consumer.sh --topic account_dlq --from-beginning --bootstrap-server localhost:9092
+
+spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.4 Desktop/Deloitte/SparkStreaming/4.\ Windowing\ and\ Join\ Operations\ on\ Streaming\ Datawith\ Apache\ Spark\ on\ databricks/ODSStreamingStaticJoin.py
+
+
+ACNT_ID_NUM,SHDW_BAL_AMT,SHDW_BAL_DTTM,SHDW_BAL_SEQ,LDGR_BAL_AMT,LDGR_BAL_DTTM,LDGR_BAL_SEQ
+12345678,0.00,2025-01-23T10:56:07Z,000,0.00,2025-01-23T10:56:07Z,000
+
+{"ACNT_ID_NUM" : "12345678", "BALANCE" : "1000.00" ,"BALANCE_STATUS" : "POSTED" ,"SEQ_NUM" : "001", "TIMESTAMP" : "2025-01-24T10:56:07Z"}
+{"ACNT_ID_NUM" : "12345679", "BALANCE" : "1000.00" ,"BALANCE_STATUS" : "POSTED" ,"SEQ_NUM" : "001", "TIMESTAMP" : "2025-01-24T10:56:07Z"}
+{"ACNT_ID_NUM" : "12345678", "BALANCE" : "1000.00" ,"BALANCE_STATUS" : "SHADOW" ,"SEQ_NUM" : "001", "TIMESTAMP" : "2025-01-24T10:56:07Z"}
+{"ACNT_ID_NUM" : "12345680", "BALANCE" : "1000.00" ,"BALANCE_STATUS" : "POSTED" ,"SEQ_NUM" : "001", "TIMESTAMP" : "2025-01-24T10:56:07Z"}
+
+use ODS;
+
+CREATE TABLE Account (
+    ACNT_ID_NUM varchar(255),
+    SHDW_BAL_AMT varchar(255),
+    SHDW_BAL_DTTM varchar(255),
+    SHDW_BAL_SEQ varchar(255),
+    LDGR_BAL_AMT varchar(255),
+    LDGR_BAL_DTTM varchar(255),
+    LDGR_BAL_SEQ varchar(255)
+);
+
+INSERT INTO ODS.ACCOUNT (ACNT_ID_NUM, SHDW_BAL_AMT , SHDW_BAL_DTTM, SHDW_BAL_SEQ, LDGR_BAL_AMT, LDGR_BAL_DTTM,LDGR_BAL_SEQ )
+VALUES ('12345678','0.00','2025-01-23T10:56:07Z','000','0.00','2025-01-23T10:56:07Z','000');
+
+

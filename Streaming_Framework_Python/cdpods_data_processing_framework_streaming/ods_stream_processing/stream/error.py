@@ -1,0 +1,2 @@
+class OffsetNotFoundError(Exception):
+    pass

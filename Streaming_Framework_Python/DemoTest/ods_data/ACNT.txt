@@ -1,0 +1,15 @@
+{"ACNT_ID_NUM" : "12345678", "BALANCE" : "1000.00" ,"BALANCE_STATUS" : "POSTED" ,"SEQ_NUM" : "001", "TIMESTAMP" : "2025-01-24T10:56:07Z"}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
