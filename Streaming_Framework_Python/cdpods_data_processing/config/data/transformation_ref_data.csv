@@ -1,3 +1,0 @@
-pipeline_task_id,pipeline_name,pipeline_task_name,query_order,database_type,sql_query,temp_table_name,read_in_batches,version,last_updated,last_updated_by
-af_edw_entparty_ods_batch_landing_ods_load,af_edw_entparty_ods_batch,landing_ods_load,1,pheonix,ods_refd.party_id_qualifier,ref_party_id_qualifier,,1,2023--11-04,c138147
-account_balance_pipeline_name_pipeline_task_name,account_balance_pipeline_name,pipeline_task_name,1,s3,ods_refd.party_id_qualifier,reference_table,,1,2023--11-04,c138147
