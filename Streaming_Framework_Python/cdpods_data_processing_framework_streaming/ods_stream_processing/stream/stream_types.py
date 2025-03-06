@@ -14,6 +14,7 @@ class TransformParams:
     source_data: str
     mapping: str
     reference_schema_mapping: dict
+    transformation_type: str
 
 
 @dataclass(frozen=True)
@@ -134,6 +135,7 @@ class ReferenceDataQuery:
     query: str
     table: str
     db_type: DatabaseType
+    transformation_type: str
 
 @dataclass(frozen=True)
 class SourceDataQuery:

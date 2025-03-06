@@ -8,10 +8,7 @@ from ods_stream_processing.stream.stream_config import StreamConfig
 from ods_stream_processing.utils.pheonix import read_from_pheonix_with_jdbc
 from ods_stream_processing.stream.transform_module import transform_data, transform_data_structure
 
-
-
 logger = logging.getLogger(__name__)
-
 
 def parse_avro_data(df: DataFrame, schema: dict) -> DataFrame:
     """
@@ -21,14 +18,13 @@ def parse_avro_data(df: DataFrame, schema: dict) -> DataFrame:
     :param schema: Dictionary representing Avro schema.
     :return DataFrame with parsed data.
     """
-    #schema = json.dumps()
+    #schema = json.dumps(schema)
     schema = json.dumps({"type":"record","name":"BKK_AccountBalanceUpdate","namespace":"xml","fields":[{"name":"MessageHeader","type":{"type":"record","name":"MessageHeader","fields":[{"name":"Timestamp","type":{"type":"long","logicalType":"timestamp-millis"},"xmlkind":"element"},{"name":"BusCorID","type":"string","xmlkind":"element"},{"name":"LocRefNum","type":"string","xmlkind":"element"},{"name":"RetAdd","type":"string","xmlkind":"element"},{"name":"SeqNum","type":"string","xmlkind":"element"},{"name":"ReqRef","type":"string","xmlkind":"element"},{"name":"OriSou","type":"string","xmlkind":"element"},{"name":"EventAction","type":"string","xmlkind":"element"}]},"xmlkind":"element"},{"name":"MessageBody","type":{"type":"record","name":"MessageBody","fields":[{"name":"AccArr","type":{"type":"record","name":"AccArr","fields":[{"name":"AccNum","type":"string","xmlkind":"element"},{"name":"Balance","type":{"type":"bytes","logicalType":"decimal","precision":32,"scale":6},"xmlkind":"element"},{"name":"BalanceStatus","type":"string","xmlkind":"element"}]},"xmlkind":"element"},{"name":"Branch","type":{"type":"record","name":"Branch","fields":[{"name":"NSC","type":"string","xmlkind":"element"}]},"xmlkind":"element"}]},"xmlkind":"element"}]})
     # Parse the Avro data using the shema provided
-    df.printSchema()
     
     return df \
-        .select(from_avro(F.col("value"),schema).alias("data"),F.col("topic"), F.col("partition"), F.col("offset"))\
-        .select("data.*", "partition", "offset")
+        .select(from_avro(F.col("value"),schema).alias("data"))\
+        .select("data.*")
 
 
 def read_stream_from_kafka(
@@ -225,7 +221,7 @@ def read_data_from_source1(
 
     # Collect the IDs from the incoming dataframe to use in the WHERE clause
     id_list = (
-        incoming_df.select(pheonix_data_source["src_id_col"])
+        incoming_df.select(phoenix_data_source["src_id_col"])
         .distinct().rdd.flatMap(lambda x: x)
         .collect()
     )
@@ -234,12 +230,12 @@ def read_data_from_source1(
     df = read_from_pheonix_with_jdbc(
         spark,
         table,
-        pheonix_data_source["zkurl"],
-        pheonix_data_source["pheonix_driver"]
+        phoenix_data_source["zkurl"],
+        phoenix_data_source["pheonix_driver"]
     )
 
     if len(id_list) > 0:
-        df = df.filter(F.col(f"{pheonix_data_source['tgt_id_col']}").isin(id_list))
+        df = df.filter(F.col(f"{phoenix_data_source['tgt_id_col']}").isin(id_list))
 
     # Select specified columns from the DataFrame
     return df.select(*columns)

@@ -65,15 +65,24 @@ def transform_data_structure(df: DataFrame):
     # FROM THE CONFIG FILE AS PART OF THE NEXT SPRINT
 
     df = (
-        df.select("MessageHeader.*", "MessageBody.*", "partition", "offset")
+        df.select("MessageHeader.*", "MessageBody.*")
     )
+    logger.info("Schema of dataframe after transform_data_structure_1 %s",df.printSchema())
+    
     df = (
         df.select(
             "*",
             "AccArr.*",
             "Branch.*",
-        ).drop("AccArr", "Branch")
+        )
     )
+    logger.info("Schema of dataframe after transform_data_structure_2 %s",df.printSchema())
+    
+    df = (
+        df.drop("AccArr", "Branch")
+    )
+
+    logger.info("Schema of dataframe after transform_data_structure_3 %s",df.printSchema())
     return df
 
 
@@ -160,7 +169,6 @@ def transform_data(
         ctx: ApplicationContext,
         source_df: DataFrame,
 ) -> DataFrame:
-    logger.info("SPARK_SESSION_OBJECT = %s", ctx.spark)
     config = ctx.config
     spark = ctx.spark
     params = config.transform_params
@@ -177,8 +185,6 @@ def transform_data(
     reference_df = prepare_reference_data(
         spark, config, transform_cfg.ref_data_query, source_df
     )
-    # source_df.show()
-    # reference_df.show()
     
     transformed_df = transform_source_data(
         spark, transform_cfg.source_data_query, reference_df
@@ -199,7 +205,7 @@ def transform_data(
     #         transform_cfg.source_data_query, transformed_df, audit_df
     #     )
 
-    transformed_df = transformed_df.drop_duplicates().persist()
+    #transformed_df = transformed_df.drop_duplicates().persist()
     logger.info('number of rows after transformations: {}'.format(transformed_df.count()))
 
     return transformed_df
@@ -213,10 +219,8 @@ def read_transform_config(
 
     with open(params.source_data) as f:
         src_data_cfg = read_source_data_config(f, task_id)
-        logger.info("SOURCE_DATA_CFG = %s",src_data_cfg)
-
+        
     with open(params.mapping) as f:
-        print("params.mapping = %s",params.mapping)
         mapping_cfg = read_mapping_config(f, task_id)
         
     return TransformConfig(ref_data_cfg, src_data_cfg, mapping_cfg)
@@ -243,10 +247,7 @@ def read_mapping_config(file: tp.IO, task_id: str) -> Sequence:
     items = (ColumnMapping(*to_row(item)) for item in reader)
     rules = query_pipeline_sorted(items, task_id)
 
-    logger.info(
-        f'transformation mappings read:',
-        f'pipeline task = {task_id}, count = {len(rules)}'
-    )
+    logger.info(f"transformation mappings read: pipeline task = {task_id}, count = {len(rules)}")
 
     if len(rules) == 0:
         raise ValueError('Cannot find transformation column mapping configuration')
@@ -301,10 +302,11 @@ def read_reference_data_config(file: tp.IO, task_id: str, reference_schema_mappi
         csv_column_index(header, 'sql_query'),
         csv_column_index(header, 'temp_table_name'),
         csv_column_index(header, 'database_type'),
+        csv_column_index(header, 'transformation_type'),
     )
 
     to_db_type = lambda v: DatabaseType[v.upper()]
-    schema = str, int, str, str, to_db_type
+    schema = str, int, str, str, to_db_type, str
     assert len(schema) == len(indexes)
 
     extract = itemgetter(*indexes)
@@ -373,18 +375,10 @@ def transform_column_mapping(
         df: DataFrame
 ) -> DataFrame:
     
-    print("BRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJ")
-    print("config = ",config)
-    print("col_mapping = ", col_mapping)
-    print("df = ",df)
     mappings = [(m.target, m) for m in col_mapping]
-    print("mappings = ",mappings)
     columns = [quote_col(m.target) for m in col_mapping]
-    print("columns = ",columns)
     transform = {c: map_column(config, m) for c,m in mappings}
-    print("transform = ",transform)
-    print("BRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJBRDJ")
-
+    
     return df.withColumns(transform).select(*columns)
 
 def map_column(config: StreamConfig, mapping: ColumnMapping) -> Column:
@@ -399,6 +393,9 @@ def map_column(config: StreamConfig, mapping: ColumnMapping) -> Column:
 
 def query_pipeline(data: Iterable, task_id: str) -> Sequence:
     return [item for item in data if item.pipeline_task_id == task_id]
+
+def query_pipeline_1(data: Iterable, task_id: str, transformation_type: str) -> Sequence:
+    return [item for item in data if item.pipeline_task_id == task_id and item.transformation_type == "transform"]
 
 def query_pipeline_sorted(data: Iterable, task_id: str) -> Sequence:
     items = query_pipeline(data, task_id)

@@ -40,6 +40,7 @@ def create_stream_config(
         source_data=generic_args['transformation_source_data_path'],
         mapping=generic_args['transformation_mapping_path'],
         reference_schema_mapping=job_args['reference_schema_mapping'],
+        transformation_type=job_args['transformation_type']
     )
     
     return StreamConfig(

@@ -146,7 +146,7 @@ def write_offsets(
         return updated_offsets
     
 
-def wrire_metrics(ctx: ApplicationContext, metrics: RecordMetrics):
+def write_metrics(ctx: ApplicationContext, metrics: RecordMetrics):
     """
     Write stats to db with the given metrics and timestampes.
 
@@ -214,12 +214,12 @@ def process_metrics_and_offsets(ctx: ApplicationContext, offsets: dict):
         if datetime.now(timezone.utc) - last_updated_time > timedelta(seconds=ctx.config.offset_sleeping_time):
             offsets = write_offsets(ctx, offsets, latest_offsets)
 
-            wrire_metrics(ctx, total_metrics)
+            write_metrics(ctx, total_metrics)
             total_metrics = RecordMetrics()
             last_updated_time = datetime.now(timezone.utc)
 
     write_offsets(ctx, offsets, latest_offsets)
-    wrire_metrics(ctx, total_metrics)
+    write_metrics(ctx, total_metrics)
     logger.info("Finished writing offsets and metrics")
             
 

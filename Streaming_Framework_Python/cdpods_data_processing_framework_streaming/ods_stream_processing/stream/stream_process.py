@@ -28,6 +28,7 @@ def read_latest_offsets(df: DataFrame) -> dict[str, int]:
     offset_rows = df.withColumn("row_num", F.row_number().over(window_spec)) \
         .filter(F.col("row_num") == 1) \
         .collect()
+    logger.info("offset_rows =%s", offset_rows)
     return {r.partition: r.offset for r in offset_rows}
 
 
@@ -41,10 +42,13 @@ def process_data(ctx: ApplicationContext, batch_df: DataFrame, schema: dict):
     """
     
     phoenix_data_source = ctx.config.phoenix_data_source
+    
     # Parse and transform the Kafka data
     parsed_df = parse_avro_data(batch_df, schema)
-    parsed_df = transform_data_structure(parsed_df)
-    parsed_df.createOrReplaceGlobalTempView("source_df")
+    parsed_df.createOrReplaceGlobalTempView("parsed_df")
+    
+    # This line has been commented as exploding of the avro dataframe is being done by using reference config files. 
+    #parsed_df = transform_data_structure(parsed_df)
     
     # Perform data transformation
     transformed_df = transform_data(ctx, parsed_df)
@@ -53,11 +57,11 @@ def process_data(ctx: ApplicationContext, batch_df: DataFrame, schema: dict):
     
 
     # Write the final DataFrame back to the pheonix table
-    write_to_pheonix(
-        transformed_df,
-        f"{phoenix_data_source['job_schema']}.{phoenix_data_source['table']}",
-        phoenix_data_source["zkurl"]
-    )
+    # write_to_pheonix(
+    #     transformed_df,
+    #     f"{phoenix_data_source['job_schema']}.{phoenix_data_source['table']}",
+    #     phoenix_data_source["zkurl"]
+    # )
     return final_df_count
 
 
