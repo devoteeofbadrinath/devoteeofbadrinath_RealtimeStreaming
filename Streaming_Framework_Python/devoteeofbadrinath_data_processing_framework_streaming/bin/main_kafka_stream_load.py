@@ -5,11 +5,11 @@ import logging
 from functools import partial
 from concurrent.futures import ThreadPoolExecutor, as_completed
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from ods_stream_processing.stream.app import application_context
-from ods_stream_processing.stream.input_module import read_from_kafka
-from ods_stream_processing.stream.stream_process import process_stream_batch
-from ods_stream_processing.utils.schema_registry import get_schema_from_registry
-from ods_stream_processing.stream.audit import read_kafka_offsets, process_metrics_and_offsets
+from brdj_stream_processing.stream.app import application_context
+from brdj_stream_processing.stream.input_module import read_from_kafka
+from brdj_stream_processing.stream.stream_process import process_stream_batch
+from brdj_stream_processing.utils.schema_registry import get_schema_from_registry
+from brdj_stream_processing.stream.audit import read_kafka_offsets, process_metrics_and_offsets
 
 
 logger = logging.getLogger(__name__)

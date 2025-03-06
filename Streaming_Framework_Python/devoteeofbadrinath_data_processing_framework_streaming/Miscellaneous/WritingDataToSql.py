@@ -29,7 +29,7 @@ logger = logging.getLogger(__name__)
 static_data = sparkSession.read\
                         .format("csv")\
                         .option("header", "true")\
-                        .load('/Users/shivammittal/Desktop/Deloitte/BOI_ODS_Python/cdpods_data_processing_framework_streaming/Miscellaneous/SampleData/sample_account_data_corrected.csv')
+                        .load('/Users/shivammittal/Desktop/Deloitte/BOI_ODS_Python/cdpbrdj_data_processing_framework_streaming/Miscellaneous/SampleData/sample_account_data_corrected.csv')
 
 static_data.printSchema()
 

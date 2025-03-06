@@ -5,10 +5,10 @@ from datetime import datetime, timezone
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
-from ods_stream_processing.stream.stream_types import ApplicationContext, RecordMetrics
-from ods_stream_processing.stream.input_module import read_data_from_source, parse_avro_data
-from ods_stream_processing.stream.transform_module import transform_data, transform_data_structure
-from ods_stream_processing.stream.output_module import write_to_pheonix
+from brdj_stream_processing.stream.stream_types import ApplicationContext, RecordMetrics
+from brdj_stream_processing.stream.input_module import read_data_from_source, parse_avro_data
+from brdj_stream_processing.stream.transform_module import transform_data, transform_data_structure
+from brdj_stream_processing.stream.output_module import write_to_pheonix
 
 
 logger = logging.getLogger(__name__)

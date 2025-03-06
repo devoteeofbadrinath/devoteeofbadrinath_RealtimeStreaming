@@ -5,9 +5,9 @@ import logging
 from queue import Queue
 from collections.abc import Iterator
 from contextlib import contextmanager
-from ods_stream_processing.utils.spark import spark_session
-from ods_stream_processing.stream.stream_config import create_stream_config
-from ods_stream_processing.stream.stream_types import ApplicationContext, ApplicationState
+from brdj_stream_processing.utils.spark import spark_session
+from brdj_stream_processing.stream.stream_config import create_stream_config
+from brdj_stream_processing.stream.stream_types import ApplicationContext, ApplicationState
 
 
 logger = logging.getLogger(__name__)

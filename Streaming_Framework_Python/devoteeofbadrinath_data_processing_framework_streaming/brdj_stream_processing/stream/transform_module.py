@@ -338,7 +338,7 @@ def prepare_reference_data(
     for rq in config:
         if rq.db_type == DatabaseType.PHEONIX:
             #df = read_pheonix_table(spark, rq.query, ['*'], stream_config.phoenix_data_source.zkurl)
-            df = read_pheonix_table(spark, rq.query, ['*'], "jdbc:mysql://localhost:3306/ods")
+            df = read_pheonix_table(spark, rq.query, ['*'], "jdbc:mysql://localhost:3306/brdj")
         elif rq.db_type == DatabaseType.HIVE:
             df = spark.sql(rq.query)
             df = df.persist()

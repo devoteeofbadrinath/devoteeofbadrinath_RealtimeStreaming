@@ -7,11 +7,11 @@ import queue
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql import functions as F
 from pyspark.sql.types import StructType, StructField, StringType, LongType
-from ods_stream_processing.stream.stream_types import ApplicationContext, RecordMetrics
-from ods_stream_processing.stream.stream_config import StreamConfig
-from ods_stream_processing.stream.output_module import write_to_pheonix
-from ods_stream_processing.stream.error import OffsetNotFoundError
-from ods_stream_processing.utils.pheonix import read_from_pheonix
+from brdj_stream_processing.stream.stream_types import ApplicationContext, RecordMetrics
+from brdj_stream_processing.stream.stream_config import StreamConfig
+from brdj_stream_processing.stream.output_module import write_to_pheonix
+from brdj_stream_processing.stream.error import OffsetNotFoundError
+from brdj_stream_processing.utils.pheonix import read_from_pheonix
 
 
 logger = logging.getLogger(__name__)

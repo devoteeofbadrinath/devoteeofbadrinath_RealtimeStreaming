@@ -1,4 +1,4 @@
-from ods_stream_processing.stream.stream_types import StreamConfig, TransformParams
+from brdj_stream_processing.stream.stream_types import StreamConfig, TransformParams
 
 
 def create_stream_config(

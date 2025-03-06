@@ -144,8 +144,8 @@ def main(json_config):
     spark = SparkSession.builder.appName("KafkaProducer").getOrCreate()
     
     # Define schema paths
-    spark_schema_path = f"/Users/shivammittal/Desktop/Deloitte/BOI_ODS_Python/cdpods_data_processing_framework_streaming/ods_stream_processing/schema/spark/{spark_schema_name}"
-    avro_schema_path = f"/Users/shivammittal/Desktop/Deloitte/BOI_ODS_Python/cdpods_data_processing_framework_streaming/ods_stream_processing/schema/avro/{avro_schema_name}"
+    spark_schema_path = f"/Users/shivammittal/Desktop/Deloitte/BOI_ODS_Python/cdpbrdj_data_processing_framework_streaming/brdj_stream_processing/schema/spark/{spark_schema_name}"
+    avro_schema_path = f"/Users/shivammittal/Desktop/Deloitte/BOI_ODS_Python/cdpbrdj_data_processing_framework_streaming/brdj_stream_processing/schema/avro/{avro_schema_name}"
 
     # Read schemas
     spark_schema, avro_schema = read_from_schemas(

@@ -33,7 +33,7 @@ def read_from_pheonix(
     :param zk_url: Zookeeper URL for HBase
     :return: DataFrame containing the data read from Pheonix
     """
-    mysql_url = "jdbc:mysql://localhost:3306/ods"
+    mysql_url = "jdbc:mysql://localhost:3306/brdj"
     mysql_properties = {
     "user": "root",
     "password": "Hari@@14@@09",

@@ -4,9 +4,9 @@ from typing import Sequence
 from pyspark.sql import SparkSession, DataFrame
 from pyspark.sql import functions as F
 from pyspark.sql.avro.functions import from_avro
-from ods_stream_processing.stream.stream_config import StreamConfig
-from ods_stream_processing.utils.pheonix import read_from_pheonix_with_jdbc
-from ods_stream_processing.stream.transform_module import transform_data, transform_data_structure
+from brdj_stream_processing.stream.stream_config import StreamConfig
+from brdj_stream_processing.utils.pheonix import read_from_pheonix_with_jdbc
+from brdj_stream_processing.stream.transform_module import transform_data, transform_data_structure
 
 logger = logging.getLogger(__name__)
 
