@@ -1,0 +1,12 @@
+Config =  ValidationRecordConfig(pipeline_name='cde_bkkg_acntbal_brdj_stream', pipeline_task_id='cde_bkkg_acntbal_brdj_stream', validation_type=<ValidationType.PRE_TRANSFORM: 'pre_transform'>, key=['AccNum', 'NSC'], columns=[ValidationRecordColumn(col_name='Balance', source_date_format='', enum_value=[], validation_name=<ValidationName.IS_FLOAT: 'is_float'>), ValidationRecordColumn(col_name='BalanceStatus', source_date_format='', enum_value=['POSTED', 'SHADOW'], validation_name=<ValidationName.IS_ENUM: 'is_enum'>), ValidationRecordColumn(col_name='Timestamp', source_date_format='yyyy-MM-dd', enum_value=[], validation_name=<ValidationName.IS_VALID_DATE: 'is_valid_date'>), ValidationRecordColumn(col_name='SeqNum', source_date_format='', enum_value=[], validation_name=<ValidationName.IS_INTEGER: 'is_integeer'>)])
+
+meta =  [Column<'struct(is_float AS validation, ((Balance IS NULL) OR (NOT (regexp_extract(Balance, [-+]?\d*\.\d+(?:[eE][-+]?\d+)?, 0) = ))) AS valid AS valid) AS Balance_0'>, Column<'struct(is_enum AS validation, ((BalanceStatus IN (POSTED, SHADOW)) AND (NOT (BalanceStatus IS NULL))) AS valid AS valid) AS BalanceStatus_1'>, Column<'struct(is_valid_date AS validation, ((to_date(Timestamp, yyyy-MM-dd) IS NOT NULL) OR (Timestamp IS NULL)) AS valid AS valid) AS Timestamp_2'>, Column<'struct(is_integeer AS validation, ((SeqNum IS NULL) OR (NOT (regexp_extract(SeqNum, ^\s*[-+]?\d*\s*$, 0) = ))) AS valid AS valid) AS SeqNum_3'>]
+
+Config =  ValidationRecordConfig(pipeline_name='cde_bkkg_acntbal_brdj_stream', pipeline_task_id='cde_bkkg_acntbal_brdj_stream', validation_type=<ValidationType.POST_TRANSFORM: 'post_transform'>, key=['ACNT_ID_NUM_KEY'], columns=[ValidationRecordColumn(col_name='ACNT_ID_NUM', source_date_format='', enum_value=[], validation_name=<ValidationName.IS_MANDATORY: 'is_mandatory'>)])
+meta =  [Column<'struct(is_mandatory AS validation, (ACNT_ID_NUM IS NOT NULL) AS valid AS valid) AS ACNT_ID_NUM_0'>]
+
+type of data frame  <class 'pyspark.sql.dataframe.DataFrame'>
+data frame  DataFrame[ACNT_ID_NUM_KEY: string, ACNT_ID_NUM: string, SHDW_BAL_AMT: decimal(23,4), SHDW_BAL_DTTM: timestamp, SHDW_BAL_SEQ: string, LDGR_BAL_AMT: decimal(23,4), LDGR_BAL_DTTM: timestamp, LDGR_BAL_SEQ: string]
+
+type of data frame  <class 'py4j.java_gateway.JavaObject'>
+data frame  [Timestamp: timestamp, BusCorID: string ... 10 more fields]

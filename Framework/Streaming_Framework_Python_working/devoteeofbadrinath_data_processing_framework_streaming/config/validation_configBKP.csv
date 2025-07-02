@@ -1,0 +1,8 @@
+pipeline_task_id,pipeline_name,ppipeline_task_name,col_name,validation_type,source_date_format,enum_value,validation_name,version,last_updated,last_updated_by
+cde_bkkg_acntbal_brdj_stream,cde_bkkg_acntbal_brdj_stream,stream_load,"AccNum,NSC",pre_transform,,,validation_key,0.1,19/10/2025,A137930
+cde_bkkg_acntbal_brdj_stream,cde_bkkg_acntbal_brdj_stream,stream_load,Balance,pre_transform,,,is_float,0.1,19/10/2025,A137930
+cde_bkkg_acntbal_brdj_stream,cde_bkkg_acntbal_brdj_stream,stream_load,BalanceStatus,pre_transform,,"POSTED,SHADOW",is_enum,0.1,19/10/2025,A137930
+cde_bkkg_acntbal_brdj_stream,cde_bkkg_acntbal_brdj_stream,stream_load,Timestamp,pre_transform,yyyy-MM-dd,,is_valid_date,0.1,19/10/2025,A137930
+cde_bkkg_acntbal_brdj_stream,cde_bkkg_acntbal_brdj_stream,stream_load,SeqNum,pre_transform,,,is_integer,0.1,19/10/2025,A137930
+cde_bkkg_acntbal_brdj_stream,cde_bkkg_acntbal_brdj_stream,stream_load,ACNT_ID_NUM_KEY,post_transform,,,validation_key,0.1,19/10/2025,A137930
+cde_bkkg_acntbal_brdj_stream,cde_bkkg_acntbal_brdj_stream,stream_load,ACNT_ID_NUM,post_transform,,,is_mandatory,0.1,19/10/2025,A137930
